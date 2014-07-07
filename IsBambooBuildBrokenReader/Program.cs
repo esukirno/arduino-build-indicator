@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Configuration;
 using System.IO.Ports;
-using Newtonsoft.Json;
 
 namespace IsBambooBuildBrokenReader
 {
