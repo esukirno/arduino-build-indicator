@@ -1,12 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.IO.Ports;
-using System.Linq;
-using System.Net;
-using System.ServiceModel.Syndication;
-using System.Xml;
 using System.Configuration;
+using System.IO.Ports;
+using Newtonsoft.Json;
 
 namespace IsBambooBuildBrokenReader
 {
@@ -14,52 +9,58 @@ namespace IsBambooBuildBrokenReader
     {
         static void Main(string[] args)
         {
-            var url = ConfigurationManager.AppSettings["BambooBuildPlanRssFeedUrl"];
-            var username = ConfigurationManager.AppSettings["BambooUsername"];
-            var password = ConfigurationManager.AppSettings["BambooPassword"];
+            var planKey = ConfigurationManager.AppSettings["PlanKey"];
 
-            using (var webClient = new WebClient())
+            var bamboo = new Bamboo("http://tools-bamboo:8085/rest/api/latest/");
+            
+            var plan = bamboo.GetPlan(planKey);
+
+            if (plan.IsBuilding)
             {
-                webClient.Credentials = new NetworkCredential(username, password);
-                var data = webClient.DownloadString(url);
+                AlertBuildBuilding();
+            }
 
-                using (var reader = XmlReader.Create(new StringReader(data)))
-                {
-                    var feed = SyndicationFeed.Load(reader);
+            var result = bamboo.GetLatestResultForPlan(planKey);
 
-                    if (feed.Items.Any())
-                    {
-                        dynamic buildStatus = feed.Items.FirstOrDefault();
-                        if (buildStatus.Title.Text.Contains("FAILED"))
-                        {
-                            TurnOnSiren();
-                        }
-                        else
-                        {
-                            TurnOffSiren();
-                        }
-                    }
-                }
-            }            
-        }
-
-        static void TurnOnSiren()
-        {
-            using (var outputPort = new SerialPort("COM4", 9600))
+            if (!result.WasSuccessful())
             {
-                outputPort.Open();
-                outputPort.Write("1");
-                outputPort.Close();
+                AlertBuildBroken();
+            }
+            else
+            {
+                AlertBuildResting();
             }
         }
 
-        static void TurnOffSiren()
+        static void AlertBuildResting()
         {
-            using (var outputPort = new SerialPort("COM4", 9600))
+            SendMessage("0");
+        }
+
+        static void AlertBuildBroken()
+        {
+            SendMessage("1");
+        }
+
+        static void AlertBuildBuilding()
+        {
+            SendMessage("2");
+        }
+
+        static void SendMessage(string message)
+        {
+            Console.WriteLine("Sending Message: {0}", message);
+            try
             {
-                outputPort.Open();
-                outputPort.Write("0");
-                outputPort.Close();
+                using (var outputPort = new SerialPort("COM4", 9600))
+                {
+                    outputPort.Open();
+                    outputPort.Write(message);
+                    outputPort.Close();
+                }
+            }
+            catch
+            {
             }
         }
     }
