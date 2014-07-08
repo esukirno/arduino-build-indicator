@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Configuration;
-using System.IO.Ports;
+using System.IO;
+using System.Reflection;
+using Newtonsoft.Json;
 
 namespace IsBambooBuildBrokenReader
 {
@@ -8,62 +10,66 @@ namespace IsBambooBuildBrokenReader
     {
         static void Main(string[] args)
         {
-            var planKey = ConfigurationManager.AppSettings["PlanKey"];
+            var planKey = ConfigurationManager.AppSettings["PlanKey"];            
 
+            BuildNotification notification;
             using (var bamboo = new Bamboo("http://tools-bamboo:8085/rest/api/latest/"))
             {
-
                 var plan = bamboo.GetPlan(planKey);
 
                 if (plan.IsBuilding)
                 {
-                    AlertBuildBuilding();
+                    notification = new BuildNotification(planKey, BuildStatus.Building, "Red 5 standing by");
                 }
 
                 var result = bamboo.GetLatestResultForPlan(planKey);
 
                 if (!result.WasSuccessful())
                 {
-                    AlertBuildBroken();
+                    notification = new BuildNotification(planKey, BuildStatus.Broken, "Success! Row inserted");
                 }
                 else
                 {
-                    AlertBuildResting();
+                    notification = new BuildNotification(planKey, BuildStatus.Resting, "Nothing to worry about. Now get back to work!");
                 }
             }
-        }
 
-        static void AlertBuildResting()
-        {
-            SendMessage("0");
-        }
+            var notifier = new CompositeBuildNotifier(new GrowlBuildNotifier(), new ArduinoBuildNotifier());
 
-        static void AlertBuildBuilding()
-        {
-            SendMessage("1");
-        }
+            var cacheFile = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), @"PreviousBambooPlanReading.cache");
+            var reading = GetPreviousBambooPlanReading(cacheFile);
 
-        static void AlertBuildBroken()
-        {
-            SendMessage("2");
-        }
-
-
-        static void SendMessage(string message)
-        {
-            Console.WriteLine("Sending Message: {0}", message);
-            try
+            if (reading != null && reading.PlanKey == planKey && DateTime.UtcNow.Subtract(reading.LastRunUtc) < TimeSpan.FromSeconds(70))
             {
-                using (var outputPort = new SerialPort("COM4", 9600))
+                if (reading.BuildStatus != (int) notification.Status)
                 {
-                    outputPort.Open();
-                    outputPort.Write(message);
-                    outputPort.Close();
+                    notifier.Notify(notification);
                 }
             }
-            catch
+            else
             {
+                notifier.Notify(notification);
             }
+
+            UpdateBambooPlanReading(cacheFile, notification, planKey);
+        }
+
+        private static void UpdateBambooPlanReading(string cacheFile, BuildNotification notification, string planKey)
+        {
+            var newReading = new BambooPlanReading(DateTime.UtcNow, (int) notification.Status, planKey);
+            File.WriteAllText(cacheFile, JsonConvert.SerializeObject(newReading));
+        }
+
+        private static BambooPlanReading GetPreviousBambooPlanReading(string cacheFile)
+        {
+            if (!File.Exists(cacheFile))
+            {
+                var writer = File.CreateText(cacheFile);
+                writer.Close();
+            }
+            var cacheStr = File.ReadAllText(cacheFile);
+            var reading = JsonConvert.DeserializeObject<BambooPlanReading>(cacheStr);
+            return reading;
         }
     }
 }
