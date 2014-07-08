@@ -12,27 +12,7 @@ namespace IsBambooBuildBrokenReader
         {
             var planKey = ConfigurationManager.AppSettings["PlanKey"];            
 
-            BuildNotification notification;
-            using (var bamboo = new Bamboo("http://tools-bamboo:8085/rest/api/latest/"))
-            {
-                var plan = bamboo.GetPlan(planKey);
-
-                if (plan.IsBuilding)
-                {
-                    notification = new BuildNotification(planKey, BuildStatus.Building, "Red 5 standing by");
-                }
-
-                var result = bamboo.GetLatestResultForPlan(planKey);
-
-                if (!result.WasSuccessful())
-                {
-                    notification = new BuildNotification(planKey, BuildStatus.Broken, "Success! Row inserted");
-                }
-                else
-                {
-                    notification = new BuildNotification(planKey, BuildStatus.Resting, "Nothing to worry about. Now get back to work!");
-                }
-            }
+            BuildNotification notification = GetBuildNotification(planKey);
 
             var notifier = new CompositeBuildNotifier(new GrowlBuildNotifier(), new ArduinoBuildNotifier());
 
@@ -52,6 +32,29 @@ namespace IsBambooBuildBrokenReader
             }
 
             UpdateBambooPlanReading(cacheFile, notification, planKey);
+        }
+
+        private static BuildNotification GetBuildNotification(string planKey)
+        {
+            using (var bamboo = new Bamboo("http://tools-bamboo:8085/rest/api/latest/"))
+            {
+                var plan = bamboo.GetPlan(planKey);
+
+                if (plan.IsBuilding)
+                {
+                    return new BuildNotification(planKey, BuildStatus.Building, "Red 5 standing by");
+                }
+
+                var result = bamboo.GetLatestResultForPlan(planKey);
+
+                if (!result.WasSuccessful())
+                {
+                    return new BuildNotification(planKey, BuildStatus.Broken, "Success! Row inserted");
+                }
+                
+                return new BuildNotification(planKey, BuildStatus.Resting,
+                    "Nothing to worry about. Now get back to work!");
+            }
         }
 
         private static void UpdateBambooPlanReading(string cacheFile, BuildNotification notification, string planKey)
