@@ -10,24 +10,26 @@ namespace IsBambooBuildBrokenReader
         {
             var planKey = ConfigurationManager.AppSettings["PlanKey"];
 
-            var bamboo = new Bamboo("http://tools-bamboo:8085/rest/api/latest/");
-            
-            var plan = bamboo.GetPlan(planKey);
-
-            if (plan.IsBuilding)
+            using (var bamboo = new Bamboo("http://tools-bamboo:8085/rest/api/latest/"))
             {
-                AlertBuildBuilding();
-            }
 
-            var result = bamboo.GetLatestResultForPlan(planKey);
+                var plan = bamboo.GetPlan(planKey);
 
-            if (!result.WasSuccessful())
-            {
-                AlertBuildBroken();
-            }
-            else
-            {
-                AlertBuildResting();
+                if (plan.IsBuilding)
+                {
+                    AlertBuildBuilding();
+                }
+
+                var result = bamboo.GetLatestResultForPlan(planKey);
+
+                if (!result.WasSuccessful())
+                {
+                    AlertBuildBroken();
+                }
+                else
+                {
+                    AlertBuildResting();
+                }
             }
         }
 
@@ -36,15 +38,16 @@ namespace IsBambooBuildBrokenReader
             SendMessage("0");
         }
 
-        static void AlertBuildBroken()
+        static void AlertBuildBuilding()
         {
             SendMessage("1");
         }
 
-        static void AlertBuildBuilding()
+        static void AlertBuildBroken()
         {
             SendMessage("2");
         }
+
 
         static void SendMessage(string message)
         {
