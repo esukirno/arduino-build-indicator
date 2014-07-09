@@ -2,17 +2,38 @@
 
 namespace IsBambooBuildBrokenReader
 {
-    public class BambooPlanReading
+    public class ResultCheckpoint
     {
-        public BambooPlanReading(DateTime lastRunUtc, int buildStatus, string planKey)
+        public readonly int BuildNumber;
+
+        public ResultCheckpoint(int buildNumber)
         {
-            LastRunUtc = lastRunUtc;
-            BuildStatus = buildStatus;
-            PlanKey = planKey;
+            this.BuildNumber = buildNumber;
         }
 
-        public DateTime LastRunUtc { get; set; }
-        public string PlanKey { get; set; }
-        public int BuildStatus { get; set; }
+        public static bool operator <=(ResultCheckpoint left, ResultCheckpoint right)
+        {
+            return !(left > right);
+        }
+
+        public static bool operator >=(ResultCheckpoint left, ResultCheckpoint right)
+        {
+            return !(left < right);
+        }
+
+        public static bool operator <(ResultCheckpoint left, ResultCheckpoint right)
+        {
+            return left.BuildNumber < right.BuildNumber;
+        }
+
+        public static bool operator >(ResultCheckpoint left, ResultCheckpoint right)
+        {
+            return left.BuildNumber > right.BuildNumber;
+        }
+
+        public override string ToString()
+        {
+            return BuildNumber.ToString();
+        }
     }
 }
