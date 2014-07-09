@@ -4,7 +4,7 @@ using Newtonsoft.Json;
 
 namespace IsBambooBuildBrokenReader
 {
-    public class ResultCheckpointer
+    public class ResultCheckpointer : ICheckPointer
     {
         private readonly string cacheFile;
 
@@ -30,5 +30,11 @@ namespace IsBambooBuildBrokenReader
         {
             File.WriteAllText(cacheFile, JsonConvert.SerializeObject(checkpoint));
         }
+    }
+
+    public interface ICheckPointer
+    {
+        ResultCheckpoint GetLast();
+        void Store(ResultCheckpoint checkpoint);
     }
 }

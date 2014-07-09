@@ -36,4 +36,6 @@ namespace IsBambooBuildBrokenReader
             return BuildNumber.ToString();
         }
     }
+
+
 }

@@ -64,6 +64,7 @@
     <Compile Include="BambooBuildProvider.cs" />
     <Compile Include="BambooPlanReading.cs" />
     <Compile Include="BuildNotification.cs" />
+    <Compile Include="BuildNotificationDispatcher.cs" />
     <Compile Include="IBuildNotifier.cs" />
     <Compile Include="BuildStatus.cs" />
     <Compile Include="CompositeBuildNotifier.cs" />

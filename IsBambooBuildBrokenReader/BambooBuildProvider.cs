@@ -2,20 +2,18 @@
 
 namespace IsBambooBuildBrokenReader
 {
-    public class NotificationProvider : IDisposable
+    public class NotificationProvider : INotificationProvider
     {
         private readonly string _planKey;
-        private readonly string _bambooLatestRestApiUri;
         private readonly Bamboo _bamboo;
 
-        public NotificationProvider(string planKey, string bambooLatestRestApiUri)
+        public NotificationProvider(string planKey, Bamboo client)
         {
             if (planKey == null) throw new ArgumentNullException("planKey");
-            if (bambooLatestRestApiUri == null) throw new ArgumentNullException("bambooLatestRestApiUri");
+            if (client == null) throw new ArgumentNullException("client");
 
             _planKey = planKey;
-            _bambooLatestRestApiUri = bambooLatestRestApiUri;
-            _bamboo = new Bamboo(_bambooLatestRestApiUri);
+            _bamboo = client;
         }
 
         public bool TryGetNotificationSince(ResultCheckpoint lastCheckpoint, out BuildNotification notification)
@@ -56,10 +54,10 @@ namespace IsBambooBuildBrokenReader
             return false;
             
         }
+    }
 
-        public void Dispose()
-        {
-            _bamboo.Dispose();
-        }
+    public interface INotificationProvider
+    {
+        bool TryGetNotificationSince(ResultCheckpoint lastCheckpoint, out BuildNotification notification);
     }
 }

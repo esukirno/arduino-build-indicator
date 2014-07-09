@@ -1,6 +1,4 @@
-﻿using System;
-using System.Configuration;
-using System.Threading;
+﻿using System.Configuration;
 using IsBambooBuildBrokenReader;
 
 namespace BuildIndicator.Console
@@ -18,31 +16,17 @@ namespace BuildIndicator.Console
             var planKey = ConfigurationManager.AppSettings["PlanKey"];
             var bambooUri = ConfigurationManager.AppSettings["BambooRestApiUri"];
 
-            var notifications = new NotificationProvider(planKey, bambooUri);
+            var bamboo = new Bamboo(bambooUri);
+            var notifications = new NotificationProvider(planKey, bamboo);
             var notifier = new StateAwareNotifier(new CompositeBuildNotifier(new GrowlBuildNotifier(),
                 new ArduinoBuildNotifier()));
             var checkpointer = new ResultCheckpointer();
+            var dispatcher = new BuildNotificationDispatcher(notifications, checkpointer, notifier);
 
-            try
-            {
-                while (!System.Console.KeyAvailable)
-                {
-                    Thread.Sleep(TimeSpan.FromSeconds(5));
+            dispatcher.Start();
 
-                    var checkPoint = checkpointer.GetLast();
-
-                    BuildNotification notification = null;
-                    if (notifications.TryGetNotificationSince(checkPoint, out notification))
-                    {
-                        notifier.Notify(notification);
-                        checkpointer.Store(notification.Checkpoint);
-                    }
-                }
-            }
-            finally
-            {
-                notifications.Dispose();
-            }
+            System.Console.ReadLine();
+            dispatcher.Stop();
         }
     }
 }
