@@ -10,9 +10,10 @@ namespace IsBambooBuildBrokenReader
     {
         static void Main(string[] args)
         {
-            var planKey = ConfigurationManager.AppSettings["PlanKey"];            
+            var planKey = ConfigurationManager.AppSettings["PlanKey"];
+            var bambooUri = ConfigurationManager.AppSettings["http://tools-bamboo:8085/rest/api/latest/"];
 
-            BuildNotification notification = GetBuildNotification(planKey);
+            var notification = new BambooBuildProvider(planKey, bambooUri).GetLatestBuildNotification();
 
             var notifier = new CompositeBuildNotifier(new GrowlBuildNotifier(), new ArduinoBuildNotifier());
 
@@ -33,30 +34,7 @@ namespace IsBambooBuildBrokenReader
 
             UpdateBambooPlanReading(cacheFile, notification, planKey);
         }
-
-        private static BuildNotification GetBuildNotification(string planKey)
-        {
-            using (var bamboo = new Bamboo("http://tools-bamboo:8085/rest/api/latest/"))
-            {
-                var plan = bamboo.GetPlan(planKey);
-
-                if (plan.IsBuilding)
-                {
-                    return new BuildNotification(planKey, BuildStatus.Building, "Red 5 standing by");
-                }
-
-                var result = bamboo.GetLatestResultForPlan(planKey);
-
-                if (!result.WasSuccessful())
-                {
-                    return new BuildNotification(planKey, BuildStatus.Broken, "Success! Row inserted");
-                }
-                
-                return new BuildNotification(planKey, BuildStatus.Resting,
-                    "Nothing to worry about. Now get back to work!");
-            }
-        }
-
+        
         private static void UpdateBambooPlanReading(string cacheFile, BuildNotification notification, string planKey)
         {
             var newReading = new BambooPlanReading(DateTime.UtcNow, (int) notification.Status, planKey);
