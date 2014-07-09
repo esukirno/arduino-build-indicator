@@ -1,5 +1,5 @@
 ﻿using System.Configuration;
-using IsBambooBuildBrokenReader;
+using BuildIndicator.Core;
 
 namespace BuildIndicator.Console
 {

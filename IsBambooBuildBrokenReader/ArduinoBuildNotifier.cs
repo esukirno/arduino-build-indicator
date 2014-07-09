@@ -2,7 +2,7 @@
 using System.Globalization;
 using System.IO.Ports;
 
-namespace IsBambooBuildBrokenReader
+namespace BuildIndicator.Core
 {
     public class ArduinoBuildNotifier : IBuildNotifier
     {

@@ -2,7 +2,7 @@
 using System.Reflection;
 using Newtonsoft.Json;
 
-namespace IsBambooBuildBrokenReader
+namespace BuildIndicator.Core
 {
     public class ResultCheckpointer
     {
