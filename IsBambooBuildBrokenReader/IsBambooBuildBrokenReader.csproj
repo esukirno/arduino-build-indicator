@@ -58,12 +58,14 @@
   <ItemGroup>
     <Compile Include="ArduinoBuildNotifier.cs" />
     <Compile Include="Bamboo.cs" />
+    <Compile Include="BambooBuildProvider.cs" />
     <Compile Include="BambooPlanReading.cs" />
     <Compile Include="BuildNotification.cs" />
     <Compile Include="BuildNotifier.cs" />
     <Compile Include="BuildStatus.cs" />
     <Compile Include="CompositeBuildNotifier.cs" />
     <Compile Include="GrowlBuildNotifier.cs" />
+    <Compile Include="IBuildProvider.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
