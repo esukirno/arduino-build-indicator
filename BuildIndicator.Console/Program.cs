@@ -25,7 +25,7 @@ namespace BuildIndicator.Console
 
             dispatcher.Start();
 
-            System.Console.ReadLine();
+            System.Console.ReadKey();
             dispatcher.Stop();
         }
     }
