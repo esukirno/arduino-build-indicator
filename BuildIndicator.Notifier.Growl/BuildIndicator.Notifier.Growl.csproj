@@ -4,16 +4,15 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{18355345-837C-44AF-B5B9-F2B34EDC41A8}</ProjectGuid>
-    <OutputType>Exe</OutputType>
+    <ProjectGuid>{E543B760-CB3C-483B-8A8B-F29B5006CB3A}</ProjectGuid>
+    <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>BuildIndicator.Console</RootNamespace>
-    <AssemblyName>BuildIndicator.Console</AssemblyName>
+    <RootNamespace>BuildIndicator.Notifier.Growl</RootNamespace>
+    <AssemblyName>BuildIndicator.Notifier.Growl</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -23,7 +22,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
@@ -32,8 +30,13 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Growl.Connector">
+      <HintPath>..\libs\Growl.Connector.dll</HintPath>
+    </Reference>
+    <Reference Include="Growl.CoreLibrary">
+      <HintPath>..\libs\Growl.CoreLibrary.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
-    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -42,21 +45,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Program.cs" />
+    <Compile Include="GrowlBuildNotifier.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\BuildIndicator.Notifier.Arduino\BuildIndicator.Notifier.Arduino.csproj">
-      <Project>{7942c6f6-787d-4bc3-81f2-ad09ad1dbb47}</Project>
-      <Name>BuildIndicator.Notifier.Arduino</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\BuildIndicator.Notifier.Growl\BuildIndicator.Notifier.Growl.csproj">
-      <Project>{e543b760-cb3c-483b-8a8b-f29b5006cb3a}</Project>
-      <Name>BuildIndicator.Notifier.Growl</Name>
-    </ProjectReference>
     <ProjectReference Include="..\IsBambooBuildBrokenReader\BuildIndicator.Core.csproj">
       <Project>{DF1EC19D-CB59-47A5-888A-0407F6DBF327}</Project>
       <Name>BuildIndicator.Core</Name>

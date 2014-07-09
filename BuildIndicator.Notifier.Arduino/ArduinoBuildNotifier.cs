@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Globalization;
 using System.IO.Ports;
+using BuildIndicator.Core;
 
-namespace BuildIndicator.Core
+namespace BuildIndicator.Notifier.Arduino
 {
     public class ArduinoBuildNotifier : IBuildNotifier
     {
@@ -14,15 +15,8 @@ namespace BuildIndicator.Core
         }
 
         public void Notify(BuildNotification notification)
-        {
-            if (notification.Status == BuildStatus.Broken)
-            {
-                SendMessage(((int) notification.Status).ToString(CultureInfo.CurrentCulture));
-            }
-            else
-            {
-                SendMessage(((int) BuildStatus.Resting).ToString(CultureInfo.CurrentCulture));
-            }
+        {            
+            SendMessage(((int) notification.Status).ToString(CultureInfo.CurrentCulture));            
         }
         
         private void SendMessage(string message)

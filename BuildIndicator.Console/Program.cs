@@ -1,5 +1,7 @@
 ﻿using System.Configuration;
 using BuildIndicator.Core;
+using BuildIndicator.Notifier.Arduino;
+using BuildIndicator.Notifier.Growl;
 
 namespace BuildIndicator.Console
 {

@@ -1,6 +1,7 @@
-﻿using Growl.Connector;
+﻿using BuildIndicator.Core;
+using Growl.Connector;
 
-namespace BuildIndicator.Core
+namespace BuildIndicator.Notifier.Growl
 {
     public class GrowlBuildNotifier : IBuildNotifier
     {
