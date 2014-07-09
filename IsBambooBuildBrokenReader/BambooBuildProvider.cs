@@ -2,10 +2,11 @@
 
 namespace IsBambooBuildBrokenReader
 {
-    public class NotificationProvider
+    public class NotificationProvider : IDisposable
     {
         private readonly string _planKey;
         private readonly string _bambooLatestRestApiUri;
+        private readonly Bamboo _bamboo;
 
         public NotificationProvider(string planKey, string bambooLatestRestApiUri)
         {
@@ -14,47 +15,51 @@ namespace IsBambooBuildBrokenReader
 
             _planKey = planKey;
             _bambooLatestRestApiUri = bambooLatestRestApiUri;
+            _bamboo = new Bamboo(_bambooLatestRestApiUri);
         }
 
         public bool TryGetNotificationSince(ResultCheckpoint lastCheckpoint, out BuildNotification notification)
         {
             notification = null;
 
-            using (var bamboo = new Bamboo(_bambooLatestRestApiUri))
-            {
-                var plan = bamboo.GetPlan(_planKey);
+            var plan = _bamboo.GetPlan(_planKey);
                 
-                if (plan.IsBuilding)
+            if (plan.IsBuilding)
+            {
+                notification = new BuildNotification(
+                    lastCheckpoint,
+                    _planKey,
+                    "Red 5 standing by",
+                    BuildStatus.Building);
+                return true;
+            }
+
+            var result = _bamboo.GetLatestResultForPlan(_planKey);
+            var currentCheckpoint = new ResultCheckpoint(result.Number);
+
+            if (currentCheckpoint > lastCheckpoint)
+            {
+                if (!result.WasSuccessful())
                 {
-                    notification = new BuildNotification(
-                        lastCheckpoint,
-                        _planKey,
-                        "Red 5 standing by",
-                        BuildStatus.Building);
-                    return true;
-                }
-
-                var result = bamboo.GetLatestResultForPlan(_planKey);
-                var currentCheckpoint = new ResultCheckpoint(result.Number);
-
-                if (currentCheckpoint > lastCheckpoint)
-                {
-                    if (!result.WasSuccessful())
-                    {
-                        notification = new BuildNotification(
-                            currentCheckpoint,
-                            _planKey, "Broken!", BuildStatus.Broken);
-                        return true;
-                    }
-
                     notification = new BuildNotification(
                         currentCheckpoint,
-                        _planKey, "Nothing to worry about. Now get back to work!", BuildStatus.Resting);
+                        _planKey, "Broken!", BuildStatus.Broken);
                     return true;
                 }
 
-                return false;
+                notification = new BuildNotification(
+                    currentCheckpoint,
+                    _planKey, "Nothing to worry about. Now get back to work!", BuildStatus.Resting);
+                return true;
             }
+
+            return false;
+            
+        }
+
+        public void Dispose()
+        {
+            _bamboo.Dispose();
         }
     }
 }

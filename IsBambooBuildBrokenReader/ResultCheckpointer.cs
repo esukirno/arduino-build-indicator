@@ -11,7 +11,7 @@ namespace IsBambooBuildBrokenReader
         public ResultCheckpointer()
         {
             cacheFile = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location),
-                @"PreviousBambooPlanReading.cache");
+                @"PreviousBambooPlanReading.chk");
         }
 
         public ResultCheckpoint GetLast()
