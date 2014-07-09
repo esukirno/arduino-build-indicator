@@ -65,9 +65,9 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\IsBambooBuildBrokenReader\IsBambooBuildBrokenReader.csproj">
+    <ProjectReference Include="..\IsBambooBuildBrokenReader\BuildIndicator.Core.csproj">
       <Project>{DF1EC19D-CB59-47A5-888A-0407F6DBF327}</Project>
-      <Name>IsBambooBuildBrokenReader</Name>
+      <Name>BuildIndicator.Core</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

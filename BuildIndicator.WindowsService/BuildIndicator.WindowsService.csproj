@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>c595552f-2fcb-4145-a8bb-cb7f5bdd85dd</ProjectGuid>
+    <ProjectGuid>{B9ED18EC-EB0E-40C3-8D6D-6204121A82CB}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>BuildIndicator.WindowsService</RootNamespace>
