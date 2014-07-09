@@ -2,6 +2,27 @@
 
 namespace BuildIndicator.Core
 {
+    public class StateAwareNotifier : IBuildNotifier
+    {
+        private BuildStatus? status;
+
+        private readonly IBuildNotifier notifier;
+
+        public StateAwareNotifier(IBuildNotifier notifier)
+        {
+            this.notifier = notifier;
+        }
+
+        public void Notify(BuildNotification notification)
+        {
+            if (!status.HasValue || notification.Status != status.Value)
+            {
+                notifier.Notify(notification);
+            }
+
+            status = notification.Status;
+        }
+    }
 
     public class CompositeBuildNotifier : IBuildNotifier
     {

@@ -4,14 +4,14 @@ using Newtonsoft.Json;
 
 namespace BuildIndicator.Core
 {
-    public class ResultCheckpointer
+    public class ResultCheckpointer : ICheckPointer
     {
         private readonly string cacheFile;
 
         public ResultCheckpointer()
         {
             cacheFile = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location),
-                @"PreviousBambooPlanReading.cache");
+                @"PreviousBambooPlanReading.chk");
         }
 
         public ResultCheckpoint GetLast()
@@ -30,5 +30,11 @@ namespace BuildIndicator.Core
         {
             File.WriteAllText(cacheFile, JsonConvert.SerializeObject(checkpoint));
         }
+    }
+
+    public interface ICheckPointer
+    {
+        ResultCheckpoint GetLast();
+        void Store(ResultCheckpoint checkpoint);
     }
 }
