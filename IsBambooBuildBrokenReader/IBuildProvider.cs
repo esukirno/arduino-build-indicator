@@ -2,6 +2,6 @@
 {
     public interface IBuildProvider
     {
-        BuildNotification GetLatestBuildNotification();
+        BuildNotification GetNotificationsSince(ResultCheckpoint checkpoint);
     }
 }

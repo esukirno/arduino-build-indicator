@@ -18,6 +18,7 @@ namespace IsBambooBuildBrokenReader
 
         public Bamboo(string rootUrl)
         {
+            if (rootUrl == null) throw new ArgumentNullException("rootUrl");
             this.root = new Uri(rootUrl);
             this.client = HttpClientFactory.Create(
                 //new WebRequestHandler

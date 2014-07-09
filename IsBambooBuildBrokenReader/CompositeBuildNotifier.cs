@@ -2,6 +2,7 @@
 
 namespace IsBambooBuildBrokenReader
 {
+
     public class CompositeBuildNotifier : IBuildNotifier
     {
         private readonly IBuildNotifier[] _notifiers;
