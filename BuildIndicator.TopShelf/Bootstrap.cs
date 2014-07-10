@@ -4,19 +4,15 @@ using BuildIndicator.AlertDialler;
 using BuildIndicator.Core;
 using BuildIndicator.Notifier.Arduino;
 using BuildIndicator.Notifier.Growl;
+using Idecom.Host.Interfaces;
 
-namespace BuildIndicator.Console
+namespace BuildIndicator.TopShelf
 {
-    class Program
+    public class Bootstrap : IWantToStartAfterServiceStarts
     {
-        private static void Main(string[] args)
+        private BuildNotificationDispatcher dispatcher;
+        public void AfterStart()
         {
-            new Program().Run();
-        }
-
-        public void Run()
-        {
-            System.Console.WriteLine("Press any key to stop the service.");
             ServicePointManager.ServerCertificateValidationCallback += (sender, certificate, chain, errors) => true;
             var planKey = ConfigurationManager.AppSettings["PlanKey"];
             var bambooUri = ConfigurationManager.AppSettings["BambooRestApiUri"];
@@ -32,11 +28,13 @@ namespace BuildIndicator.Console
                     new BuildFailedDialler(new Member("joseph_flood", "092317406")).OnlyForBrokenBuilds()
                 )));
             var checkpointer = new ResultCheckpointer();
-            var dispatcher = new BuildNotificationDispatcher(notifications, checkpointer, notifier);
+            dispatcher = new BuildNotificationDispatcher(notifications, checkpointer, notifier);
 
-            dispatcher.Start();
+            dispatcher.Start();                       
+        }
 
-            System.Console.ReadKey();
+        public void BeforeStop()
+        {
             dispatcher.Stop();
         }
     }
