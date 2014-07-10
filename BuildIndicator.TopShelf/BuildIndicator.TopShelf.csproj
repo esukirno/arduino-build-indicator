@@ -57,11 +57,11 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
     <None Include="Configuration\appsetting.config" />
     <None Include="Configuration\client.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Include="Idecom.Host.exe.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
