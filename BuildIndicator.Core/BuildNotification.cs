@@ -1,4 +1,4 @@
-﻿namespace IsBambooBuildBrokenReader
+﻿namespace BuildIndicator.Core
 {
     public class BuildNotification
     {

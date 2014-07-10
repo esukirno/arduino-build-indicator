@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading;
 
-namespace IsBambooBuildBrokenReader
+namespace BuildIndicator.Core
 {
     public class BuildNotificationDispatcher
     {

@@ -47,9 +47,17 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <None Include="Configuration\appsetting.config" />
+    <None Include="Configuration\client.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\IsBambooBuildBrokenReader\BuildIndicator.Core.csproj">
+    <ProjectReference Include="..\BuildIndicator.AlertDialler\BuildIndicator.AlertDialler.csproj">
+      <Project>{F37B2313-5ECE-4239-B32F-7BCB85A21ABA}</Project>
+      <Name>BuildIndicator.AlertDialler</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\BuildIndicator.Core\BuildIndicator.Core.csproj">
       <Project>{DF1EC19D-CB59-47A5-888A-0407F6DBF327}</Project>
       <Name>BuildIndicator.Core</Name>
     </ProjectReference>

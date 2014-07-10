@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace IsBambooBuildBrokenReader
+﻿namespace BuildIndicator.Core
 {
     public class ResultCheckpoint
     {

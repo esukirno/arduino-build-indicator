@@ -1,6 +1,6 @@
 ﻿using Growl.Connector;
 
-namespace IsBambooBuildBrokenReader
+namespace BuildIndicator.Core
 {
     public class GrowlBuildNotifier : IBuildNotifier
     {
