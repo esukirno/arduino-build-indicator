@@ -36,13 +36,19 @@ namespace BuildIndicator.Core
 
         private void MoveState(BuildStatus newStatus)
         {
-            if ( newStatus == BuildStatus.Building &&
-                 (_state == State.Fixed || _state == State.NormalOperation))
+            if (newStatus == BuildStatus.Building || newStatus == BuildStatus.Resting &&
+                (_state == State.Fixed || _state == State.NormalOperation))
+            {
                 _state = State.NormalOperation;
+                return;
+            }
 
-            if (newStatus == BuildStatus.Building && 
+            if (newStatus == BuildStatus.Building &&
                 _state == State.Broken)
+            {
                 _state = State.Fixing;
+                return;
+            }
 
             _state = newStatus == BuildStatus.Broken ? State.Broken : State.Fixed;
         }

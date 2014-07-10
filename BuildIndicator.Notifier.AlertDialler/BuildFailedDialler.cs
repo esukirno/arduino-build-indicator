@@ -21,8 +21,7 @@ namespace BuildIndicator.AlertDialler
                 deviceName = "SEP00152B476BA2",
                 user = "152001"
             };
-            var response = dialler.makeCallSoap(cred,"092317406",pro );
-
+            var response = dialler.makeCallSoap(cred,"092317406", pro);
             Thread.Sleep(TimeSpan.FromSeconds(10));
             dialler.endCallSoap(cred, pro);
             dialler.Close();

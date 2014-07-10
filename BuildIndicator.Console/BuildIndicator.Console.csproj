@@ -47,7 +47,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-    <None Include="Configuration\appsetting.config" />
+    <None Include="Configuration\appsetting.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="Configuration\client.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
