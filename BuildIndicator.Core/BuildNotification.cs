@@ -14,6 +14,7 @@
         public string Name { get; set; }
         public string Description { get; set; }
         public BuildStatus Status { get; set; }
+        public string StatusAsString { get { return Status.ToString(); } }
 
         public override string ToString()
         {

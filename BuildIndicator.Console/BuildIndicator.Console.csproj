@@ -53,9 +53,17 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\BuildIndicator.AlertDialler\BuildIndicator.AlertDialler.csproj">
+    <ProjectReference Include="..\BuildIndicator.Notifier.AlertDialler\BuildIndicator.Notifier.AlertDialler.csproj">
       <Project>{F37B2313-5ECE-4239-B32F-7BCB85A21ABA}</Project>
-      <Name>BuildIndicator.AlertDialler</Name>
+      <Name>BuildIndicator.Notifier.AlertDialler</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\BuildIndicator.Notifier.Arduino\BuildIndicator.Notifier.Arduino.csproj">
+      <Project>{7942c6f6-787d-4bc3-81f2-ad09ad1dbb47}</Project>
+      <Name>BuildIndicator.Notifier.Arduino</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\BuildIndicator.Notifier.Growl\BuildIndicator.Notifier.Growl.csproj">
+      <Project>{e543b760-cb3c-483b-8a8b-f29b5006cb3a}</Project>
+      <Name>BuildIndicator.Notifier.Growl</Name>
     </ProjectReference>
     <ProjectReference Include="..\BuildIndicator.Core\BuildIndicator.Core.csproj">
       <Project>{DF1EC19D-CB59-47A5-888A-0407F6DBF327}</Project>

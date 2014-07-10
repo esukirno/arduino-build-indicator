@@ -1,7 +1,7 @@
 #include <Scheduler.h>
 
 const int brokenBuildPin = 13;
-const int inProgressBuildPin = TODO;
+const int inProgressBuildPin = 7;
 
 void setup() {
   Serial.begin(9600);

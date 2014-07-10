@@ -7,9 +7,15 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Specifications", "Specifica
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BuildIndicator.Console", "BuildIndicator.Console\BuildIndicator.Console.csproj", "{18355345-837C-44AF-B5B9-F2B34EDC41A8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BuildIndicator.AlertDialler", "BuildIndicator.AlertDialler\BuildIndicator.AlertDialler.csproj", "{F37B2313-5ECE-4239-B32F-7BCB85A21ABA}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BuildIndicator.Web", "BuildIndicator.Web\BuildIndicator.Web.csproj", "{86899591-C1A9-4532-ABB8-B74A42A567BA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BuildIndicator.Notifier.Growl", "BuildIndicator.Notifier.Growl\BuildIndicator.Notifier.Growl.csproj", "{E543B760-CB3C-483B-8A8B-F29B5006CB3A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BuildIndicator.Notifier.Arduino", "BuildIndicator.Notifier.Arduino\BuildIndicator.Notifier.Arduino.csproj", "{7942C6F6-787D-4BC3-81F2-AD09AD1DBB47}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BuildIndicator.Core", "BuildIndicator.Core\BuildIndicator.Core.csproj", "{DF1EC19D-CB59-47A5-888A-0407F6DBF327}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BuildIndicator.Notifier.AlertDialler", "BuildIndicator.Notifier.AlertDialler\BuildIndicator.Notifier.AlertDialler.csproj", "{F37B2313-5ECE-4239-B32F-7BCB85A21ABA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -25,14 +31,26 @@ Global
 		{18355345-837C-44AF-B5B9-F2B34EDC41A8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{18355345-837C-44AF-B5B9-F2B34EDC41A8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{18355345-837C-44AF-B5B9-F2B34EDC41A8}.Release|Any CPU.Build.0 = Release|Any CPU
-		{F37B2313-5ECE-4239-B32F-7BCB85A21ABA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F37B2313-5ECE-4239-B32F-7BCB85A21ABA}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{F37B2313-5ECE-4239-B32F-7BCB85A21ABA}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F37B2313-5ECE-4239-B32F-7BCB85A21ABA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{86899591-C1A9-4532-ABB8-B74A42A567BA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{86899591-C1A9-4532-ABB8-B74A42A567BA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{86899591-C1A9-4532-ABB8-B74A42A567BA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{86899591-C1A9-4532-ABB8-B74A42A567BA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E543B760-CB3C-483B-8A8B-F29B5006CB3A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E543B760-CB3C-483B-8A8B-F29B5006CB3A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E543B760-CB3C-483B-8A8B-F29B5006CB3A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E543B760-CB3C-483B-8A8B-F29B5006CB3A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7942C6F6-787D-4BC3-81F2-AD09AD1DBB47}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7942C6F6-787D-4BC3-81F2-AD09AD1DBB47}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7942C6F6-787D-4BC3-81F2-AD09AD1DBB47}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7942C6F6-787D-4BC3-81F2-AD09AD1DBB47}.Release|Any CPU.Build.0 = Release|Any CPU
 		{DF1EC19D-CB59-47A5-888A-0407F6DBF327}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{DF1EC19D-CB59-47A5-888A-0407F6DBF327}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DF1EC19D-CB59-47A5-888A-0407F6DBF327}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DF1EC19D-CB59-47A5-888A-0407F6DBF327}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F37B2313-5ECE-4239-B32F-7BCB85A21ABA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F37B2313-5ECE-4239-B32F-7BCB85A21ABA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F37B2313-5ECE-4239-B32F-7BCB85A21ABA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F37B2313-5ECE-4239-B32F-7BCB85A21ABA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
