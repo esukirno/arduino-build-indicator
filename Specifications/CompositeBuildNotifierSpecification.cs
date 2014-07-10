@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BuildIndicator.Core;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,7 +9,6 @@ using Moq;
 using Ploeh.AutoFixture;
 using Ploeh.AutoFixture.AutoMoq;
 using Ploeh.AutoFixture.Xunit;
-using Xunit;
 using Xunit.Extensions;
 
 namespace Specifications

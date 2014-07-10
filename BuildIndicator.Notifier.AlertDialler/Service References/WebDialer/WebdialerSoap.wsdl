@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="urn:WebdialerSoap" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns="http://schemas.xmlsoap.org/wsdl/" name="urn:WebdialerSoap" targetNamespace="urn:WebdialerSoap" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <xsd:schema targetNamespace="urn:WebdialerSoap">
+      <xsd:import namespace="http://schemas.xmlsoap.org/soap/encoding/" />
+      <xsd:complexType name="CallResponse">
+        <xsd:sequence>
+          <xsd:element name="responseCode" type="xsd:int" />
+          <xsd:element name="responseDescription" nillable="true" type="xsd:string" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="Credential">
+        <xsd:sequence>
+          <xsd:element name="userID" nillable="true" type="xsd:string" />
+          <xsd:element name="password" nillable="true" type="xsd:string" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="UserProfile">
+        <xsd:sequence>
+          <xsd:element name="user" nillable="true" type="xsd:string" />
+          <xsd:element name="deviceName" nillable="true" type="xsd:string" />
+          <xsd:element name="lineNumber" nillable="true" type="xsd:string" />
+          <xsd:element name="supportEM" type="xsd:boolean" />
+          <xsd:element name="locale" nillable="true" type="xsd:string" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="GetConfigResponse">
+        <xsd:sequence>
+          <xsd:element name="description" nillable="true" type="xsd:string" />
+          <xsd:element name="deviceInfoList" nillable="true" type="tns:ArrayOfWDDeviceInfo" />
+          <xsd:element name="responseCode" type="xsd:int" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="WDDeviceInfo">
+        <xsd:sequence>
+          <xsd:element name="deviceName" nillable="true" type="xsd:string" />
+          <xsd:element name="lines" nillable="true" type="tns:ArrayOfstring" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="ArrayOfWDDeviceInfo">
+        <xsd:complexContent mixed="false">
+          <xsd:restriction base="soapenc:Array">
+            <xsd:attribute wsdl:arrayType="tns:WDDeviceInfo[]" ref="soapenc:arrayType" />
+          </xsd:restriction>
+        </xsd:complexContent>
+      </xsd:complexType>
+      <xsd:complexType name="ArrayOfstring">
+        <xsd:complexContent mixed="false">
+          <xsd:restriction base="soapenc:Array">
+            <xsd:attribute wsdl:arrayType="xsd:string[]" ref="soapenc:arrayType" />
+          </xsd:restriction>
+        </xsd:complexContent>
+      </xsd:complexType>
+    </xsd:schema>
+  </wsdl:types>
+  <wsdl:message name="makeCallSoap0In">
+    <wsdl:part name="cred" type="tns:Credential" />
+    <wsdl:part name="dest" type="xsd:string" />
+    <wsdl:part name="prof" type="tns:UserProfile" />
+  </wsdl:message>
+  <wsdl:message name="makeCallSoap0Out">
+    <wsdl:part name="return" type="tns:CallResponse" />
+  </wsdl:message>
+  <wsdl:message name="endCallSoap1In">
+    <wsdl:part name="cred" type="tns:Credential" />
+    <wsdl:part name="prof" type="tns:UserProfile" />
+  </wsdl:message>
+  <wsdl:message name="endCallSoap1Out">
+    <wsdl:part name="return" type="tns:CallResponse" />
+  </wsdl:message>
+  <wsdl:message name="getProfileSoap2In">
+    <wsdl:part name="cred" type="tns:Credential" />
+    <wsdl:part name="userid" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="getProfileSoap2Out">
+    <wsdl:part name="return" type="tns:GetConfigResponse" />
+  </wsdl:message>
+  <wsdl:message name="isClusterUser3In">
+    <wsdl:part name="userid" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="isClusterUser2Out">
+    <wsdl:part name="return" type="xsd:boolean" />
+  </wsdl:message>
+  <wsdl:portType name="WebdialerSoapService">
+    <wsdl:operation name="makeCallSoap">
+      <wsdl:input message="tns:makeCallSoap0In" />
+      <wsdl:output message="tns:makeCallSoap0Out" />
+    </wsdl:operation>
+    <wsdl:operation name="endCallSoap">
+      <wsdl:input message="tns:endCallSoap1In" />
+      <wsdl:output message="tns:endCallSoap1Out" />
+    </wsdl:operation>
+    <wsdl:operation name="getProfileSoap">
+      <wsdl:input message="tns:getProfileSoap2In" />
+      <wsdl:output message="tns:getProfileSoap2Out" />
+    </wsdl:operation>
+    <wsdl:operation name="isClusterUserSoap">
+      <wsdl:input message="tns:isClusterUser3In" />
+      <wsdl:output message="tns:isClusterUser2Out" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="WebdialerSoapService" type="tns:WebdialerSoapService">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="rpc" />
+    <wsdl:operation name="makeCallSoap">
+      <soap:operation soapAction="urn:makeCallSoap" />
+      <wsdl:input>
+        <soap:body use="encoded" namespace="urn:WebdialerSoap" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="encoded" namespace="urn:WebdialerSoap" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="endCallSoap">
+      <soap:operation soapAction="urn:endCallSoap" />
+      <wsdl:input>
+        <soap:body use="encoded" namespace="urn:WebdialerSoap" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="encoded" namespace="urn:WebdialerSoap" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getProfileSoap">
+      <soap:operation soapAction="urn:getProfileSoap" />
+      <wsdl:input>
+        <soap:body use="encoded" namespace="urn:WebdialerSoap" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="encoded" namespace="urn:WebdialerSoap" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="isClusterUserSoap">
+      <soap:operation soapAction="urn:isClusterUserSoap" />
+      <wsdl:input>
+        <soap:body use="encoded" namespace="urn:WebdialerSoap" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="encoded" namespace="urn:WebdialerSoap" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="WebdialerSoap">
+    <wsdl:port name="WebdialerSoapService" binding="tns:WebdialerSoapService">
+      <soap:address location="https://your_webdialer_server/webdialer/services/WebdialerSoapService" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

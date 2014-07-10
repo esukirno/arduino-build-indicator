@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("BuildIndicator.WindowsService")]
+[assembly: AssemblyTitle("BuildIndicator.Phone.BuildFailed")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("BuildIndicator.WindowsService")]
+[assembly: AssemblyProduct("BuildIndicator.Phone.BuildFailed")]
 [assembly: AssemblyCopyright("Copyright ©  2014")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("c595552f-2fcb-4145-a8bb-cb7f5bdd85dd")]
+[assembly: Guid("ba4bf96b-5d07-42c9-bd93-4d20ccb79290")]
 
 // Version information for an assembly consists of the following four values:
 //

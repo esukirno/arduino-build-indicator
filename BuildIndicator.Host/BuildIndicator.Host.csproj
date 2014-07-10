@@ -79,7 +79,7 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\IsBambooBuildBrokenReader\BuildIndicator.Core.csproj">
+    <ProjectReference Include="..\BuildIndicator.Core\BuildIndicator.Core.csproj">
       <Project>{DF1EC19D-CB59-47A5-888A-0407F6DBF327}</Project>
       <Name>BuildIndicator.Core</Name>
     </ProjectReference>

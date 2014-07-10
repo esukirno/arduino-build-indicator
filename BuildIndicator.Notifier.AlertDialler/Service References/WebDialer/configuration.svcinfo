@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<configurationSnapshot xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="urn:schemas-microsoft-com:xml-wcfconfigurationsnapshot">
+  <behaviors />
+  <bindings>
+    <binding digest="System.ServiceModel.Configuration.BasicHttpBindingElement, System.ServiceModel, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089:&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-16&quot;?&gt;&lt;Data name=&quot;WebdialerSoapService&quot;&gt;&lt;security mode=&quot;Transport&quot; /&gt;&lt;/Data&gt;" bindingType="basicHttpBinding" name="WebdialerSoapService" />
+    <binding digest="System.ServiceModel.Configuration.BasicHttpBindingElement, System.ServiceModel, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089:&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-16&quot;?&gt;&lt;Data name=&quot;WebdialerSoapService1&quot; /&gt;" bindingType="basicHttpBinding" name="WebdialerSoapService1" />
+  </bindings>
+  <endpoints>
+    <endpoint normalizedDigest="&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-16&quot;?&gt;&lt;Data address=&quot;https://your_webdialer_server/webdialer/services/WebdialerSoapService&quot; binding=&quot;basicHttpBinding&quot; bindingConfiguration=&quot;WebdialerSoapService&quot; contract=&quot;WebDialer.WebdialerSoapService&quot; name=&quot;WebdialerSoapService&quot; /&gt;" digest="&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-16&quot;?&gt;&lt;Data address=&quot;https://your_webdialer_server/webdialer/services/WebdialerSoapService&quot; binding=&quot;basicHttpBinding&quot; bindingConfiguration=&quot;WebdialerSoapService&quot; contract=&quot;WebDialer.WebdialerSoapService&quot; name=&quot;WebdialerSoapService&quot; /&gt;" contractName="WebDialer.WebdialerSoapService" name="WebdialerSoapService" />
+  </endpoints>
+</configurationSnapshot>
