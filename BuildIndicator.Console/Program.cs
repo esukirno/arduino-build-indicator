@@ -23,12 +23,14 @@ namespace BuildIndicator.Console
 
             var bamboo = new Bamboo(bambooUri);
             var notifications = new NotificationProvider(planKey, bamboo);
-            var notifier = new StateAwareNotifier(
+            var notifier =
+                new OnlyNotifyWhenStateHasChanged(
+                new OnlyNotifyWhenBrokenOrFixedBuilds(
                 new CompositeBuildNotifier(
                     new GrowlBuildNotifier(),
                     new ArduinoBuildNotifier(),
                     new BuildFailedDialler().OnlyForBrokenBuilds()
-                ));
+                )));
             var checkpointer = new ResultCheckpointer();
             var dispatcher = new BuildNotificationDispatcher(notifications, checkpointer, notifier);
 
