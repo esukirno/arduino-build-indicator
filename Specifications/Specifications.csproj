@@ -58,6 +58,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CompositeBuildNotifierSpecification.cs" />
+    <Compile Include="OnlyNotifyWhenBrokenOrFixedBuildTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

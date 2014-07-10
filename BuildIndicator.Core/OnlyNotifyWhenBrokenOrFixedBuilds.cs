@@ -5,63 +5,113 @@ namespace BuildIndicator.Core
 {
     public class OnlyNotifyWhenBrokenOrFixedBuilds : IBuildNotifier
     {
-        private enum State
-        {
-            NormalOperation,
-            Broken,
-            Fixing,
-            Fixed,
-        }
-
-        private State _state;
-
-        private readonly Dictionary<State, Action<BuildNotification>> handlers =
-            new Dictionary<State, Action<BuildNotification>>();
-
-        private readonly IBuildNotifier notifier;
+        private BuildState _state;
 
         public OnlyNotifyWhenBrokenOrFixedBuilds(IBuildNotifier notifier)
         {
-            this.notifier = notifier;
-            this.handlers.Add(State.Broken, Alert);
-            this.handlers.Add(State.Fixing, Alert);
-            this.handlers.Add(State.Fixed, Alert);
-            this.handlers.Add(State.NormalOperation, Ignore);
+            _state = new NormalOperations(notifier);
         }
 
         public void Notify(BuildNotification notification)
         {
-            MoveState(notification.Status);
-            this.handlers[_state](notification);
-        }
+            if (notification.Status == BuildStatus.Broken)
+                _state = _state.HandleBroken(notification);
 
-        private void MoveState(BuildStatus newStatus)
+            if (notification.Status == BuildStatus.Resting)
+                _state = _state.HandleResting(notification);
+
+            if (notification.Status == BuildStatus.Building)
+                _state = _state.HandleBuilding(notification);
+        }
+    }
+
+    public abstract class BuildState
+    {
+        public abstract BuildState HandleBuilding(BuildNotification notification);
+        public abstract BuildState HandleResting(BuildNotification notification);
+        public abstract BuildState HandleBroken(BuildNotification notification);
+    }
+
+    public class NormalOperations : BuildState
+    {
+        private readonly IBuildNotifier notifier;
+
+        public NormalOperations(IBuildNotifier notifier)
         {
-            if (newStatus == BuildStatus.Building &&
-                (_state == State.Fixed || _state == State.NormalOperation))
-            {
-                _state = State.NormalOperation;
-                return;
-            }
-
-            if (newStatus == BuildStatus.Building &&
-                _state == State.Broken)
-            {
-                _state = State.Fixing;
-                return;
-            }
-
-            _state = newStatus == BuildStatus.Broken ? State.Broken : State.Fixed;
+            this.notifier = notifier;
         }
 
-        private void Ignore(BuildNotification notification)
+        public override BuildState HandleBuilding(BuildNotification notification)
         {
-
+            return this;
         }
 
-        private void Alert(BuildNotification notification)
+        public override BuildState HandleResting(BuildNotification notification)
+        {
+            return this;
+        }
+
+        public override BuildState HandleBroken(BuildNotification notification)
         {
             notifier.Notify(notification);
+            return new BrokenBuild(notifier);
+        }
+    }
+
+    public class BrokenBuild : BuildState
+    {
+        private readonly IBuildNotifier notifier;
+
+        public BrokenBuild(IBuildNotifier notifier)
+        {
+            this.notifier = notifier;
+        }
+
+        public override BuildState HandleBuilding(BuildNotification notification)
+        {
+            notifier.Notify(notification);
+            return new FixingBuild(notifier);
+        }
+
+        public override BuildState HandleResting(BuildNotification notification)
+        {
+            //logically we shuold hit building first and move to fixing - but just incase, lets notify and return to normal.
+            notifier.Notify(notification);
+            return new NormalOperations(notifier);
+        }
+
+        public override BuildState HandleBroken(BuildNotification notification)
+        {
+            return this;
+        }
+    }
+
+    public class FixingBuild : BuildState
+    {
+        private readonly IBuildNotifier notifier;
+
+        public FixingBuild(IBuildNotifier notifier)
+        {
+            this.notifier = notifier;
+        }
+
+        public override BuildState HandleBuilding(BuildNotification notification)
+        {
+            //still fixing;
+            return this;
+        }
+
+        public override BuildState HandleResting(BuildNotification notification)
+        {
+            //fixed!
+            notifier.Notify(notification);
+            return new NormalOperations(notifier);
+        }
+
+        public override BuildState HandleBroken(BuildNotification notification)
+        {
+            notifier.Notify(notification);
+            return new BrokenBuild(notifier);
         }
     }
 }
