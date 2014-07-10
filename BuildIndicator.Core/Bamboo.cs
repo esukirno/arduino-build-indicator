@@ -57,9 +57,11 @@ namespace BuildIndicator.Core
 
         public Result GetLatestResultForPlan(string planKey)
         {
-            return ExpectOne(GetAllResults().Where(result => result.IsFor(planKey)),
+            var result = ExpectOne(GetAllResults().Where(r => r.IsFor(planKey)),
                 "No results found for plan key: " + planKey,
                 "Multiple results found for plan key: "+planKey);
+
+            return GetOne<Result>(result.Link.AddQueryString("?expand=metadata"));
         }
 
         public Plan[] GetAllPlans()
@@ -122,6 +124,13 @@ namespace BuildIndicator.Core
         {
             public string Rel { get; set; }
             public string Href { get; set; }
+
+            public Link AddQueryString(string query)
+            {
+                //simple enough for now.
+                Href = Href + query;
+                return this;
+            }
         }
 
         public class Result
@@ -130,6 +139,7 @@ namespace BuildIndicator.Core
             public int Number { get; set; }
             public string State { get; set;}
             public string LifeCycleState { get; set; }
+            public string BuildReason { get; set; }
             public Plan Plan { get; set; }
             public Link Link { get; set; }
             public Metadata Metadata { get; set; }
@@ -139,9 +149,22 @@ namespace BuildIndicator.Core
                 get
                 {
                     var item = Metadata.Items.FirstOrDefault(x => x.Key.Contains("userName"));
-                    return item == null ? "no_one_in_particular" : item.Value;
+
+                    if (item == null)
+                        return TryExtractFromBuildReason();
+                    
+                    return item.Value;
                 }
             }
+
+            private string TryExtractFromBuildReason()
+            {
+                var user = BuildReason.IndexOf("user/", System.StringComparison.Ordinal);
+                var endofusername = "\">";
+                var trailingSlash = BuildReason.IndexOf(endofusername, user, System.StringComparison.Ordinal);
+                return BuildReason.Substring(user + "user/".Length, trailingSlash - (user + "user/".Length));
+            }
+            
 
             public bool IsFor(string planKey)
             {
@@ -156,6 +179,11 @@ namespace BuildIndicator.Core
             {
                 return LifeCycleState.Equals("Finished");
             }
+
+            public Result()
+            {
+                Metadata = new Metadata();
+            }
         }
 
         public class Metadata
@@ -167,6 +195,11 @@ namespace BuildIndicator.Core
             }
 
             public Item[] Items { get; set; }
+
+            public Metadata()
+            {
+                Items = new Item[]{};
+            }
         }
 
         public class Plan

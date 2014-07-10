@@ -8,6 +8,7 @@
             Name = name;
             Description = description;
             Status = status;
+            TriggeredBy = triggeredBy;
         }
 
         public ResultCheckpoint Checkpoint { get; set; }

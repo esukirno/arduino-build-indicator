@@ -128,8 +128,6 @@ namespace Specifications
             Assert.True(spy.WasNotified);
         }
 
-
-
         private BuildNotification MakeNotification(BuildStatus status)
         {
             return new BuildNotification(null, "test", "test", status, "the tester");
