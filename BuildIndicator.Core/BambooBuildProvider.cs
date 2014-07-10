@@ -24,11 +24,12 @@ namespace BuildIndicator.Core
                 
             if (plan.IsBuilding)
             {
+                
                 notification = new BuildNotification(
                     lastCheckpoint,
                     _planKey,
                     "Red 5 standing by",
-                    BuildStatus.Building);
+                    BuildStatus.Building,triggeredBy: "Can't tell.");
                 return true;
             }
 
@@ -41,13 +42,15 @@ namespace BuildIndicator.Core
                 {
                     notification = new BuildNotification(
                         currentCheckpoint,
-                        _planKey, "Broken!", BuildStatus.Broken);
+                        _planKey, "Broken!", BuildStatus.Broken, result.TriggeredBy);
                     return true;
                 }
 
                 notification = new BuildNotification(
                     currentCheckpoint,
-                    _planKey, "Nothing to worry about. Now get back to work!", BuildStatus.Resting);
+                    _planKey, 
+                    "Nothing to worry about. Now get back to work!",
+                    BuildStatus.Resting, result.TriggeredBy);
                 return true;
             }
 

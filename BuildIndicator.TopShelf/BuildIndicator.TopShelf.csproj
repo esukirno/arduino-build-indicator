@@ -57,13 +57,8 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Idecom.Host.exe.config">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="Configuration\appsetting.config">
-      <SubType>Designer</SubType>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
+    <None Include="App.config" />
+    <None Include="Configuration\appsetting.config" />
     <None Include="Configuration\client.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
