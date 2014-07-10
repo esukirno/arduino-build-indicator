@@ -2,7 +2,7 @@
 {
     public class BuildNotification
     {
-        public BuildNotification(ResultCheckpoint checkpoint, string name, string description, BuildStatus status)
+        public BuildNotification(ResultCheckpoint checkpoint, string name, string description, BuildStatus status, string triggeredBy)
         {
             Checkpoint = checkpoint;
             Name = name;
@@ -15,6 +15,7 @@
         public string Description { get; set; }
         public BuildStatus Status { get; set; }
         public string StatusAsString { get { return Status.ToString(); } }
+        public string TriggeredBy { get; set; }
 
         public override string ToString()
         {

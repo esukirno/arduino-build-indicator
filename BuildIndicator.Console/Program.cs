@@ -29,7 +29,7 @@ namespace BuildIndicator.Console
                 new CompositeBuildNotifier(
                     new GrowlBuildNotifier(),
                     new ArduinoBuildNotifier(),
-                    new BuildFailedDialler().OnlyForBrokenBuilds()
+                    new BuildFailedDialler(new Member("joseph_flood", "092317406")).OnlyForBrokenBuilds()
                 )));
             var checkpointer = new ResultCheckpointer();
             var dispatcher = new BuildNotificationDispatcher(notifications, checkpointer, notifier);

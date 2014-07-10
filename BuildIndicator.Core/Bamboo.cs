@@ -132,6 +132,16 @@ namespace BuildIndicator.Core
             public string LifeCycleState { get; set; }
             public Plan Plan { get; set; }
             public Link Link { get; set; }
+            public Metadata Metadata { get; set; }
+
+            public string TriggeredBy
+            {
+                get
+                {
+                    var item = Metadata.Items.FirstOrDefault(x => x.Key.Contains("userName"));
+                    return item == null ? "no_one_in_particular" : item.Value;
+                }
+            }
 
             public bool IsFor(string planKey)
             {
@@ -146,6 +156,17 @@ namespace BuildIndicator.Core
             {
                 return LifeCycleState.Equals("Finished");
             }
+        }
+
+        public class Metadata
+        {
+            public class Item
+            {
+                public string Key { get; set; }
+                public string Value { get; set; }
+            }
+
+            public Item[] Items { get; set; }
         }
 
         public class Plan
