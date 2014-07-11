@@ -25,7 +25,15 @@ namespace BuildIndicator.TopShelf
                 new CompositeBuildNotifier(
                     new GrowlBuildNotifier(),
                     new ArduinoBuildNotifier(),
-                    new BuildFailedDialler(new Member("joseph_flood", "092317406")).OnlyForBrokenBuilds()
+                    new BuildFailedDialler(
+                        new Member("joseph_flood", "092317406"), 
+                        new Member("evgeny.komarevtsev", "152002"),
+                        new Member("jradwan", "0292317641"),
+                        new Member("muditha.dissanayake", "0292317638"),
+                        new Member( "esukirno","092317498"),
+                        new Member("saurabh.sharma", "0923177682"),
+                        new Member("tim_servcorp", "092317671")
+                        ).OnlyForBrokenBuilds()
                 )));
             var checkpointer = new ResultCheckpointer();
             dispatcher = new BuildNotificationDispatcher(notifications, checkpointer, notifier);
