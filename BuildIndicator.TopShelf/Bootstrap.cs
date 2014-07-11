@@ -29,7 +29,7 @@ namespace BuildIndicator.TopShelf
                         new Member("joseph_flood", "092317406"), 
                         new Member("evgeny.komarevtsev", "152002"),
                         new Member("jradwan", "0292317641"),
-                        new Member("muditha.dissanayake", "0292317638"),
+                        new Member("muditha.dissanayake", "092317644"),
                         new Member( "esukirno","092317498"),
                         new Member("saurabh.sharma", "0923177682"),
                         new Member("tim_servcorp", "092317671")
@@ -38,7 +38,7 @@ namespace BuildIndicator.TopShelf
             var checkpointer = new ResultCheckpointer();
             dispatcher = new BuildNotificationDispatcher(notifications, checkpointer, notifier);
 
-            dispatcher.Start();                       
+            dispatcher.Start();
         }
 
         public void BeforeStop()
