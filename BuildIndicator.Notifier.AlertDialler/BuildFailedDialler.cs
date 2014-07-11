@@ -10,7 +10,6 @@ namespace BuildIndicator.AlertDialler
     {
         private readonly Member[] members;
 
-        private volatile bool _stopDialling = false;
         private Timer _dialTimer;
 
         Credential cred = new Credential
@@ -25,7 +24,6 @@ namespace BuildIndicator.AlertDialler
             deviceName = "SEP00152B476BA2",
             user = "152001"
         };
-
 
         public BuildFailedDialler(params Member[] members)
         {
@@ -44,9 +42,8 @@ namespace BuildIndicator.AlertDialler
 
         private void HangUp(object state)
         {
-            using (var dialler = new WebDialer.WebdialerSoapServiceClient())
+            using (var dialler = new WebdialerSoapServiceClient())
             {
-
                 dialler.endCallSoap(cred, pro);
                 dialler.Close();
             }
@@ -54,7 +51,7 @@ namespace BuildIndicator.AlertDialler
 
         private void CallMember(Member triggeredBy)
         {
-            using (var dialler = new WebDialer.WebdialerSoapServiceClient())
+            using (var dialler = new WebdialerSoapServiceClient())
             {
                 dialler.makeCallSoap(cred, triggeredBy.PhoneNumber, pro);
                 dialler.Close();
@@ -63,20 +60,5 @@ namespace BuildIndicator.AlertDialler
             _dialTimer = new Timer(HangUp);
             _dialTimer.Change(TimeSpan.FromSeconds(10), TimeSpan.FromMilliseconds(-1));
         }
-    }
-
-    public class Member
-    {
-        public Member(string userName, string phoneNumber)
-        {
-            if (string.IsNullOrEmpty( userName)) throw new ArgumentNullException("userName");
-            if (string.IsNullOrEmpty(userName)) throw new ArgumentNullException("phoneNumber");
-
-            UserName = userName;
-            PhoneNumber = phoneNumber;
-        }
-
-        public string UserName { get; private set; }
-        public string PhoneNumber { get; private set; }
     }
 }
