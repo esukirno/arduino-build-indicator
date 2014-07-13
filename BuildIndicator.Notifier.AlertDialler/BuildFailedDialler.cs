@@ -53,6 +53,7 @@ namespace BuildIndicator.AlertDialler
         {
             using (var dialler = new WebdialerSoapServiceClient())
             {
+      
                 dialler.makeCallSoap(cred, triggeredBy.PhoneNumber, pro);
                 dialler.Close();
             }
