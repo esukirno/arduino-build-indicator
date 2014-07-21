@@ -159,10 +159,12 @@ namespace BuildIndicator.Core
 
             private string TryExtractFromBuildReason()
             {
-                var user = BuildReason.IndexOf("user/", System.StringComparison.Ordinal);
+                var startingIndex = BuildReason.IndexOf("user/", System.StringComparison.Ordinal);
+                if (startingIndex < 0) return "Unknown";
+
                 var endofusername = "\">";
-                var trailingSlash = BuildReason.IndexOf(endofusername, user, System.StringComparison.Ordinal);
-                return BuildReason.Substring(user + "user/".Length, trailingSlash - (user + "user/".Length));
+                var trailingSlash = BuildReason.IndexOf(endofusername, startingIndex, System.StringComparison.Ordinal);
+                return BuildReason.Substring(startingIndex + "user/".Length, trailingSlash - (startingIndex + "user/".Length));
             }
             
 
