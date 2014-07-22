@@ -54,7 +54,7 @@ namespace BuildIndicator.TopShelf
             var bamboo = new Bamboo(config.BambooUri);
             var notifications = new NotificationProvider(config.PlanKey, bamboo);
             var checkpointer = new ResultCheckpointer();
-            var dispatcher = new BuildNotificationDispatcher(notifications, checkpointer, new CompositeBuildNotifier(notifiers.ToArray()));
+            var dispatcher = new BuildNotificationDispatcher(notifications, checkpointer, new OnlyNotifyWhenStateHasChanged(new OnlyNotifyWhenBrokenOrFixedBuilds(new CompositeBuildNotifier(notifiers.ToArray()))));
 
             dispatcher.Start();
 
